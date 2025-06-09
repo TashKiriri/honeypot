@@ -1,0 +1,26 @@
+[Unit]
+Description=Basic Honeypot Service
+After=network.target
+Documentation=https://github.com/TashKiriri/basic-honeypot
+
+[Service]
+Type=simple
+User=nobody
+Group=nogroup
+WorkingDirectory=/opt/honeypot
+ExecStart=/usr/bin/python3 /opt/honeypot/honeypot.py
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/honeypot/logs
+
+[Install]
+WantedBy=multi-user.target
